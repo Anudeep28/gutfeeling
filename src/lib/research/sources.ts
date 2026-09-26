@@ -49,7 +49,7 @@ async function getEuropePmc(chemical: string): Promise<EvidenceSource[]> {
     provider: "Europe PMC",
     title: item.title || "Untitled publication",
     url: item.doi ? `https://doi.org/${item.doi}` : `https://europepmc.org/article/${item.source}/${item.id}`,
-    excerpt: item.abstractText!.slice(0, 1800),
+    excerpt: item.abstractText!,
     authors: item.authorString,
     year: item.pubYear,
   }));
@@ -64,7 +64,7 @@ async function getEfsa(chemical: string): Promise<EvidenceSource[]> {
     provider: "EFSA Journal",
     title: item.title?.[0] || "EFSA publication",
     url: item.DOI ? `https://doi.org/${item.DOI}` : "https://www.efsa.europa.eu/en/publications",
-    excerpt: (item.abstract || "EFSA publication metadata; consult the linked assessment for conclusions.").replace(/<[^>]+>/g, " ").slice(0, 1800),
+    excerpt: (item.abstract || "EFSA publication metadata; consult the linked assessment for conclusions.").replace(/<[^>]+>/g, " "),
     year: String(item.published?.["date-parts"]?.[0]?.[0] || ""),
   }));
 }
