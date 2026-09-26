@@ -69,7 +69,10 @@ export default function Home() {
       {loading && <section className="loading" aria-live="polite"><div /><p>Collecting records, reading abstracts, and building the causal chain…</p></section>}
 
       {result && <ReportView data={result} />}
-      <footer>Research aid only · Not medical advice · Verify decisions with qualified professionals</footer>
+      <footer>
+        <div>Built by Eneru · Powered by PubChem, Europe PMC, EFSA, USDA FoodData Central, KEGG, Reactome, WHO/EU DRI, Examine.com, and DeepSeek</div>
+        <div>Research aid only · Not medical advice · Verify decisions with qualified professionals</div>
+      </footer>
     </main>
   );
 }
