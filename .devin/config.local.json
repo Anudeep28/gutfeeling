@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(npx prisma)",
+      "Exec(npm run)",
+      "Exec(tasklist)",
+      "Exec(git add)",
+      "Exec(git commit)",
+      "Exec(curl)",
+      "Exec(npm test)",
+      "Exec(node)",
+      "Exec(npm init)",
+      "Exec(npm install)",
+      "Exec(npm view)",
+      "Exec(mkdir)",
+      "Exec(npm audit)",
+      "Exec(npm ls)",
+      "Exec(taskkill)",
+      "Exec(Select-Object)",
+      "Exec(npm uninstall)",
+      "Exec(git remote)",
+      "Exec(git init)"
+    ]
+  }
+}
