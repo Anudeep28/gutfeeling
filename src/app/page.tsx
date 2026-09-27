@@ -91,6 +91,7 @@ export default function Home() {
       <section className="hero" id="top">
         <p className="eyebrow">Evidence-led food chemistry</p>
         <h1>From molecule<br />to <em>meaning.</em></h1>
+        <p className="tagline">Built by Eneru · Powered by PubChem, Europe PMC, EFSA, USDA FoodData Central, KEGG, Reactome, WHO/EU DRI, Examine.com, and DeepSeek</p>
         <p className="intro">Enter a food, nutrient, or chemical. Foods are matched in USDA first so you can choose a measured nutrient; individual compounds continue through the scientific evidence sources even when USDA has no match.</p>
         <form onSubmit={research}>
           <label htmlFor="chemical">Food, nutrient, or chemical name</label>
