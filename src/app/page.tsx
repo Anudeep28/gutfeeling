@@ -1,9 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import type { EvidenceSource, ReportResponse, ResearchResponse, ReactionEntry, ReportSection, UsdaFoodDiscovery } from "@/lib/research/types";
 
 const examples = ["Caffeine", "Orange fruit", "Acrylamide", "Curcumin"];
+const DAILY_SEARCH_LIMIT = 15;
 
 export default function Home() {
   const [chemical, setChemical] = useState("");
@@ -11,6 +13,34 @@ export default function Home() {
   const [selection, setSelection] = useState<UsdaFoodDiscovery | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<{ email: string; role: string } | null>(null);
+  const [remaining, setRemaining] = useState(DAILY_SEARCH_LIMIT);
+  const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchSession() {
+      try {
+        const response = await fetch("/api/auth/me");
+        if (!response.ok) {
+          window.location.href = "/login";
+          return;
+        }
+        const payload = await response.json();
+        setUser(payload.data.user);
+        setRemaining(payload.data.remaining);
+      } catch {
+        window.location.href = "/login";
+      } finally {
+        setAuthLoading(false);
+      }
+    }
+    void fetchSession();
+  }, []);
+
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  }
 
   async function requestResearch(nutrient?: string, direct = false) {
     if (!chemical.trim()) return;
@@ -27,6 +57,7 @@ export default function Home() {
       } else {
         setSelection(null);
         setResult(data);
+        setRemaining((r) => Math.max(0, r - 1));
       }
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Research failed.");
@@ -41,9 +72,22 @@ export default function Home() {
     void requestResearch();
   }
 
+  if (authLoading) {
+    return <main><p className="loading-auth">Loading…</p></main>;
+  }
+
   return (
     <main>
-      <header className="nav"><a className="brand" href="#top">MOLECULAR TABLE <span>β</span></a><a href="#method">Method</a></header>
+      <header className="nav">
+        <a className="brand" href="#top">MOLECULAR TABLE <span>β</span></a>
+        <div className="nav-actions">
+          <a href="#method">Method</a>
+          <span className="user-pill">{user?.email}</span>
+          <span className="limit-pill">{remaining} / {DAILY_SEARCH_LIMIT} searches today</span>
+          {user?.role === "admin" && <Link href="/admin">Admin</Link>}
+          <button className="logout" onClick={() => void logout()}>Logout</button>
+        </div>
+      </header>
       <section className="hero" id="top">
         <p className="eyebrow">Evidence-led food chemistry</p>
         <h1>From molecule<br />to <em>meaning.</em></h1>

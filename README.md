@@ -5,8 +5,18 @@ An evidence-led food chemical research app. It resolves a compound through PubCh
 ## Setup
 
 1. Copy `.env.example` to `.env.local`.
-2. Add your DeepSeek API key to `DEEPSEEK_API_KEY`.
-3. Run `npm run dev` and open `http://localhost:3000`.
+2. Add your PostgreSQL connection string to `DATABASE_URL`.
+3. Set a strong random `JWT_SECRET` (at least 32 characters).
+4. Add your DeepSeek API key to `DEEPSEEK_API_KEY` and your USDA key to `USDA_API_KEY`.
+5. Optionally set `ADMIN_EMAIL` and `ADMIN_PASSWORD` to create an admin account on first request.
+6. Run `npm run dev` and open `http://localhost:3000`.
+
+## Authentication & usage limits
+
+- Users must register or sign in to search.
+- Each user is limited to 15 successful searches per UTC day.
+- Searches that fail because evidence cannot be found (e.g., unknown chemical) are logged but do not count toward the limit.
+- Admins can view registered users and their search history at `/admin`.
 
 ## Commands
 
