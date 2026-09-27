@@ -37,6 +37,8 @@ export function AuthForm({ mode, onSubmit }: AuthFormProps) {
   return (
     <main className="auth-page">
       <div className="auth-card">
+        <p className="auth-eyebrow">Built by Eneru · Powered by PubChem, Europe PMC, EFSA, USDA FoodData Central, KEGG, Reactome, WHO/EU DRI, Examine.com, and DeepSeek</p>
+        <p className="auth-description">Evidence-led food chemistry research. Trace food chemicals from structure to biological impact.</p>
         <h1>{title}</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
