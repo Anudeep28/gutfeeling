@@ -19,7 +19,9 @@
       "Exec(Select-Object)",
       "Exec(npm uninstall)",
       "Exec(git remote)",
-      "Exec(git init)"
+      "Exec(git init)",
+      "Exec(cat)",
+      "Exec(netstat)"
     ]
   }
 }
