@@ -102,10 +102,19 @@ export default function Home() {
 
       {selection && !loading && <section className="nutrient-picker">
         <p className="eyebrow">USDA FoodData Central match</p>
-        <h2>{selection.description}</h2>
-        <p>Select a nutrient measured per 100 g to build its detailed evidence report, or research your original input directly if USDA matched a product rather than your intended compound.</p>
-        <button className="direct-research" onClick={() => void requestResearch(undefined, true)}>Research “{chemical}” directly →</button>
-        <div className="nutrient-grid">{selection.nutrients.map((nutrient) => <button key={nutrient.id} onClick={() => void requestResearch(nutrient.name)}><b>{nutrient.name}</b><span>{nutrient.amount} {nutrient.unit}</span></button>)}</div>
+        <h2>What would you like to research?</h2>
+        <div className="food-match"><span>You searched for</span><b>“{chemical}”</b><span>USDA matched</span><b>{selection.description}</b></div>
+        <div className="research-choice">
+          <h3>Research your original input</h3>
+          <p>Build an evidence report about the food, nutrient, or chemical you entered.</p>
+          <button className="direct-research" onClick={() => void requestResearch(undefined, true)}>Build a report about “{chemical}” →</button>
+        </div>
+        <div className="choice-divider"><span>or</span></div>
+        <div className="research-choice">
+          <h3>Research a nutrient in this food</h3>
+          <p>Choose any measured nutrient below to build its detailed evidence report. Amounts are shown per 100 g.</p>
+        </div>
+        <div className="nutrient-grid">{selection.nutrients.map((nutrient) => <button key={nutrient.id} onClick={() => void requestResearch(nutrient.name)}><b>{nutrient.name}</b><span>{nutrient.amount} {nutrient.unit} per 100 g</span><strong>Build {nutrient.name} report →</strong></button>)}</div>
       </section>}
 
       {!result && !selection && !loading && <section className="framework" id="method"><p className="eyebrow">The reasoning chain</p><h2>A chemical is not simply<br />“good” or “bad.”</h2><div className="steps">{["Identity", "Exposure", "ADME", "Reactions", "Short-term", "Long-term"].map((step, index) => <div key={step}><b>0{index + 1}</b><span>{step}</span></div>)}</div><p className="method-copy">Impact emerges from structure × dose × route × duration × susceptibility. The report follows that chain and marks where evidence ends and inference begins.</p></section>}
