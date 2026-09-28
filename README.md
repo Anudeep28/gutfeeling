@@ -7,7 +7,7 @@ An evidence-led food chemical research app. It resolves a compound through PubCh
 1. Copy `.env.example` to `.env.local`.
 2. Add your PostgreSQL connection string to `DATABASE_URL`.
 3. Set a strong random `JWT_SECRET` (at least 32 characters).
-4. Add your DeepSeek API key to `DEEPSEEK_API_KEY` and your USDA key to `USDA_API_KEY`.
+4. Add your DeepSeek API key to `DEEPSEEK_API_KEY`, USDA key to `USDA_API_KEY`, and EPA CompTox key to `CTX_API_KEY`.
 5. Optionally set `ADMIN_EMAIL` and `ADMIN_PASSWORD` to create an admin account on first request.
 6. Run `npm run dev` and open `http://localhost:3000`.
 
@@ -34,6 +34,7 @@ An evidence-led food chemical research app. It resolves a compound through PubCh
 - **USDA FoodData Central:** real food occurrence, portion context, and nutrient profiles for nutrients and common food chemicals; gracefully skipped when no food match exists.
 - **KEGG:** curated biochemical reactions, substrates, products, and enzyme annotations mapped from the PubChem CID; gracefully skipped when no pathway/reaction match exists.
 - **Reactome:** curated human biological pathways and reactions via the Content Service search API; gracefully skipped when no match exists; no API key required.
+- **EPA CompTox / DSSTox:** toxicity values, product-use categories, and production-volume exposure indicators via the CTX APIs; requires `CTX_API_KEY` and is gracefully skipped when unavailable.
 - **WHO/EU DRI:** adult daily intake reference values (RDA/AI and upper limits) for common vitamins, minerals, and macronutrients; skipped when the queried chemical is not a covered nutrient.
 - **Examine.com:** human-readable search reference for supplement evidence, dosage, and safety. No structured data is fetched because Examine.com does not offer a public API.
 - **DeepSeek:** synthesis only. The prompt requires claims to cite retrieved source IDs and to distinguish established evidence from mechanistic inference.

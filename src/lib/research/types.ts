@@ -1,6 +1,6 @@
 export type EvidenceSource = {
   id: string;
-  provider: "PubChem" | "Europe PMC" | "EFSA Journal" | "USDA" | "KEGG" | "Examine.com" | "Reactome" | "WHO/EU DRI";
+  provider: "PubChem" | "Europe PMC" | "EFSA Journal" | "USDA" | "KEGG" | "Examine.com" | "Reactome" | "WHO/EU DRI" | "EPA CompTox";
   title: string;
   url: string;
   excerpt: string;

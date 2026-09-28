@@ -1,3 +1,4 @@
+import { getCompToxSources } from "./comptox";
 import { getDriSources } from "./dri";
 import { getExamineReference } from "./examine";
 import { getKeggReactionSources } from "./kegg";
@@ -72,18 +73,19 @@ async function getEfsa(chemical: string): Promise<EvidenceSource[]> {
 export async function gatherEvidence(chemical: string, foodSource?: EvidenceSource, foodQuery?: string): Promise<EvidenceBundle> {
   const usdaPromise = foodSource ? Promise.resolve([foodSource]) : getUsdaFoodSources(chemical).catch(() => []);
   const pubchem = await getPubChem(chemical);
-  const [literature, efsa, usda, kegg, reactome] = await Promise.all([
+  const [literature, efsa, usda, kegg, reactome, comptox] = await Promise.all([
     getEuropePmc(pubchem.identity.title).catch(() => []),
     getEfsa(pubchem.identity.title).catch(() => []),
     usdaPromise,
     getKeggReactionSources(pubchem.identity.cid).catch(() => []),
     getReactomeSources(pubchem.identity.title).catch(() => []),
+    getCompToxSources(pubchem.identity.title).catch(() => []),
   ]);
   const dri = getDriSources(pubchem.identity.title);
   return {
     chemical,
     identity: pubchem.identity,
-    sources: [...pubchem.sources, ...literature, ...efsa, ...usda, ...kegg, ...reactome, ...dri, getExamineReference(chemical)],
+    sources: [...pubchem.sources, ...literature, ...efsa, ...usda, ...kegg, ...reactome, ...comptox, ...dri, getExamineReference(chemical)],
     resolvedFromFood: foodQuery,
   };
 }

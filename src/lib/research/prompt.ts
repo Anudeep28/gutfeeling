@@ -10,6 +10,7 @@ export function buildResearchPrompt(evidence: EvidenceBundle) {
   const hasReactome = evidence.sources.some((source) => source.provider === "Reactome");
   const hasDri = evidence.sources.some((source) => source.provider === "WHO/EU DRI");
   const hasExamine = evidence.sources.some((source) => source.provider === "Examine.com");
+  const hasCompTox = evidence.sources.some((source) => source.provider === "EPA CompTox");
 
   const foodResolutionNote = evidence.resolvedFromFood
     ? `The user entered "${evidence.resolvedFromFood}". This was resolved to the food-exposure chemical ${evidence.identity.title} (${evidence.chemical}) for analysis; interpret exposure context in light of that food.`
@@ -37,6 +38,8 @@ ${hasReactome ? "Reactome sources contain curated human biological pathways and 
 ${hasDri ? "WHO/EU DRI sources provide adult reference intake values and upper limits. Use them to contextualize typical dietary amounts, but do not present them as personalized recommendations." : "No daily intake reference values were retrieved; do not state recommended daily amounts unless the retrieved literature provides them."}
 
 ${hasExamine ? "An Examine.com search link is included as a human-readable reference. It is not a retrieved evidence record; do not cite it for specific factual claims." : "No Examine.com reference link is available."}
+
+${hasCompTox ? "EPA CompTox sources provide toxicity values and exposure indicators. Use them to ground hazard, dose-response, product-use, and production-volume context; distinguish screening or animal values from demonstrated human effects." : "No EPA CompTox toxicity or exposure records were retrieved; do not infer that this means the chemical has no hazard or exposure."}
 
 Return a structured research report as JSON only with this exact shape:
 {
