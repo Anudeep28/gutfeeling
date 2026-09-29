@@ -27,7 +27,26 @@ describe("getCompToxSources", () => {
       } as Response)
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => [{ studyType: "Acute oral", speciesCommon: "Rat", toxvalNumeric: 192, toxvalUnits: "mg/kg" }],
+        json: async () => [{
+          toxvalType: "NOAEL",
+          toxvalTypeDefinition: "No observed adverse effect level.",
+          qualifier: "<",
+          toxvalNumeric: 12.5,
+          toxvalUnits: "mg/kg-day",
+          studyType: "reproduction developmental",
+          studyTypeOriginal: "two-generation reproductive toxicity",
+          speciesCommon: "Rat",
+          speciesOriginal: "rat",
+          strain: "Sprague Dawley",
+          strainOriginal: "Sprague-Dawley",
+          sex: "M/F",
+          generation: "F1",
+          exposureRoute: "oral",
+          exposureMethod: "gavage",
+          year: "1995",
+          quality: "1 (reliable without restriction)",
+          source: "ECHA IUCLID",
+        }],
       } as Response)
       .mockResolvedValueOnce({
         ok: true,
@@ -46,8 +65,14 @@ describe("getCompToxSources", () => {
     }
     expect(sources).toHaveLength(3);
     expect(sources.map((source) => source.id)).toEqual(["COMPTOX-TOXICITY", "COMPTOX-EXPOSURE-USES", "COMPTOX-EXPOSURE-VOLUME"]);
-    expect(sources[0].excerpt).toContain("Acute oral");
-    expect(sources[0].excerpt).toContain("192 mg/kg");
+    expect(sources[0].excerpt).toContain("Study type: two-generation reproductive toxicity.");
+    expect(sources[0].excerpt).toContain("Toxicity value: <12.5 mg/kg-day.");
+    expect(sources[0].excerpt).toContain("Endpoint type: NOAEL.");
+    expect(sources[0].excerpt).toContain("Subjects: Rat; Sprague Dawley; M/F; F1.");
+    expect(sources[0].excerpt).toContain("Exposure: oral; gavage.");
+    expect(sources[0].excerpt).toContain("Year: 1995.");
+    expect(sources[0].excerpt).toContain("Quality: 1 (reliable without restriction).");
+    expect(sources[0].excerpt).toContain("Source: ECHA IUCLID.");
     expect(sources[1].excerpt).toContain("Food and beverage products");
     expect(sources[2].excerpt).toContain("1M-10M lb");
   });
